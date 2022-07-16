@@ -4,6 +4,7 @@ import com.idea.toptal.exception.RecordNotFoundException;
 import com.idea.toptal.models.Player;
 import com.idea.toptal.repository.PlayerRespository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,14 +46,22 @@ public class PlayerService {
         return player;
     }
 
+    public Optional<List<Player>> getTeamPlayers(String username){
+        Optional<List<Player>> players_list = playerRespository.findByTeamId(username);
+        return players_list;
+    }
 
-    public void deletePlayerById(Long id) throws RecordNotFoundException {
+    public HttpStatus deletePlayerById(Long id, String username) {
         Optional<Player> player = playerRespository.findById(id);
         if(player.isPresent()){
+            if(!player.get().getTeamId().equals(username)){
+                return HttpStatus.FORBIDDEN;
+            }
             playerRespository.deleteById(id);
+            return HttpStatus.OK;
         } else {
-            throw new RecordNotFoundException("No player found with given in the database");
+            return HttpStatus.FORBIDDEN;
+//            throw new RecordNotFoundException("No player found with given in the database");
         }
-
     }
 }

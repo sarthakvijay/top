@@ -15,6 +15,7 @@ import java.util.Random;
 public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     Long id;
 
     @Column(name="first_name")
@@ -27,7 +28,7 @@ public class Player {
     String country;
 
     @Column(name="teamId")
-    Long teamId;
+    String teamId;
 
     @Column(name="positions")
     Position positions;
@@ -38,7 +39,7 @@ public class Player {
     @Column(name="age")
     Integer age;
 
-    public Player(String first_name, String last_name, String country, Long teamId, Position positions, Double marketvalue) {
+    public Player(String first_name, String last_name, String country, String teamId, Position positions, Double marketvalue) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.country = country;
@@ -48,9 +49,9 @@ public class Player {
         this.age = getRandomNumberInRange(18, 40);
     }
 
-    public void updateTransferValue(){
+    public void updateMarketValue(Double ask_value){
         double randomPercentage = (double)getRandomNumberInRange(10, 100)/100;
-        double newValue = this.marketvalue*(1 + randomPercentage);
+        double newValue = ask_value*(1 + randomPercentage);
         this.setMarketvalue(newValue);
     }
 
