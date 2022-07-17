@@ -9,12 +9,14 @@
         <outputRelativeToContentRoot value="true" />
         <module name="SoccerManager" />
         <module name="toptal" />
+        <module name="Soccer_Manager" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="SoccerManager" options="-parameters" />
+      <module name="Soccer_Manager" options="-parameters" />
       <module name="toptal" options="-parameters" />
     </option>
   </component>

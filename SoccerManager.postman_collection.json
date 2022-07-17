@@ -1,0 +1,299 @@
+{
+	"variables": [],
+	"info": {
+		"name": "SoccerManager",
+		"_postman_id": "b5ba9af6-c7b1-6837-9db2-48dc6fa6b858",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Signup & Singin",
+			"description": "",
+			"item": [
+				{
+					"name": "localhost:8080/api/auth/signup",
+					"request": {
+						"url": "localhost:8080/api/auth/signup",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"root\", \n\t\"email\": \"root@gmail.com\", \n\t\"country\": \"France\",\n\t\"password\": \"1234979\", \n\t\"role\": [\"mod\", \"admin\"]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/auth/signin",
+					"request": {
+						"url": "localhost:8080/api/auth/signin",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"root\", \n\t\"password\": \"1234979\"\n}"
+						},
+						"description": "User Sigin\n"
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/auth/signout",
+					"request": {
+						"url": "localhost:8080/api/auth/signout",
+						"method": "POST",
+						"header": [],
+						"body": {},
+						"description": "Signout Req"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Players",
+			"description": "",
+			"item": [
+				{
+					"name": "localhost:8080/api/player",
+					"request": {
+						"url": "localhost:8080/api/player",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Your team players "
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/player/all",
+					"request": {
+						"url": "localhost:8080/api/player/all",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "All players admin"
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/player/3",
+					"request": {
+						"url": "localhost:8080/api/player/9",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "get Specific (id) player"
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/player",
+					"request": {
+						"url": "localhost:8080/api/player",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"id\": 2,\n        \"first_name\": \"firstsaransh\",\n        \"last_name\": \"lastsaransh\",\n        \"country\": \"France\",\n        \"teamId\": \"saransh\",\n        \"positions\": \"ATTACKER\",\n        \"marketvalue\": 1000,\n        \"age\": 32\n\t\n}"
+						},
+						"description": "Creating or updating a player"
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/player/3",
+					"request": {
+						"url": "localhost:8080/api/player/1",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": "Deleting player(id) on your team "
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transfer",
+			"description": "",
+			"item": [
+				{
+					"name": "localhost:8080/api/transfer",
+					"request": {
+						"url": "localhost:8080/api/transfer",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "",
+								"value": "",
+								"description": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"player\": {\n\t\t\"id\": 38\n\t},\n\t\"ask_value\" : 2900.00\n}"
+						},
+						"description": "Creating Transfer Request"
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/transfer/buy",
+					"request": {
+						"url": "localhost:8080/api/transfer/buy",
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"player\": {\n\t\t\"id\": 57\n\t}\n}"
+						},
+						"description": "Transfer Buy Request"
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/transfer/all",
+					"request": {
+						"url": "localhost:8080/api/transfer/all",
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"description": "",
+								"disabled": true
+							}
+						],
+						"body": {},
+						"description": "Getting all Listed Transfer"
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/transfer/3",
+					"request": {
+						"url": "localhost:8080/api/transfer/71",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Getting Particular Transfer"
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/transfer/3",
+					"request": {
+						"url": "localhost:8080/api/transfer/3",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": "Deleting your player transfer Request"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Team",
+			"description": "",
+			"item": [
+				{
+					"name": "localhost:8080/api/team/all",
+					"request": {
+						"url": "localhost:8080/api/team/all",
+						"method": "GET",
+						"header": [
+							{
+								"key": "toptal",
+								"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ2aWpheXNhcnQwIiwiaWF0IjoxNjU3OTgxOTU2LCJleHAiOjE2NTgwNjgzNTZ9.TTwN_F9pKFJ8SNSk4QtZSe_fQtzF-9d7yBgbUEe5iFaHjLrG-mRujXfh0IN3X9gqjNbwXstulFQD6g5ghCBREQ; Path=/api; Max-Age=86400; Expires=Sun, 17 Jul 2022 14:32:37 GMT; HttpOnly",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Get all team (admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/team",
+					"request": {
+						"url": "localhost:8080/api/team",
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"description": "",
+								"disabled": true
+							}
+						],
+						"body": {},
+						"description": "Get request for Team"
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/team",
+					"request": {
+						"url": "localhost:8080/api/team",
+						"method": "POST",
+						"header": [],
+						"body": {},
+						"description": "Get your team"
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/team/3",
+					"request": {
+						"url": "localhost:8080/api/team/3",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": "Delete API for team"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
