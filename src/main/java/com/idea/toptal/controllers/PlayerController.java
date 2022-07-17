@@ -28,6 +28,10 @@ public class PlayerController {
     @Autowired
     JwtUtils jwtUtils;
 
+    /**
+     * Access all the players part of any team (Only Accessible to Admin User)
+     * @return
+     */
     @GetMapping("/all")
     @PreAuthorize("hasRole('ADMIN')")
     public List<Player> getAllPlayers(){
@@ -35,6 +39,13 @@ public class PlayerController {
         return players;
     }
 
+    /**
+     * Getting a Particular player in your team using (id).
+     * @param request
+     * @param id
+     * @return
+     * @throws RecordNotFoundException
+     */
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<?> getPlayerById(HttpServletRequest request, @PathVariable("id") Long id) throws RecordNotFoundException {
@@ -47,6 +58,12 @@ public class PlayerController {
         return new ResponseEntity<>(player, new HttpHeaders(), HttpStatus.OK);
     }
 
+    /**
+     * Getting your team players using the username which part of jwt token
+     * @param request
+     * @return
+     * @throws RecordNotFoundException
+     */
     @GetMapping
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<?> getTeamPlayers(HttpServletRequest request) throws RecordNotFoundException {
@@ -59,6 +76,13 @@ public class PlayerController {
         return new ResponseEntity<>(player_list.get(), new HttpHeaders(), HttpStatus.OK);
     }
 
+    /**
+     * Creating player or updating the existing player Param -(Player object)
+     * @param request
+     * @param player
+     * @return
+     * @throws RecordNotFoundException
+     */
     @PostMapping
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR')")
     public ResponseEntity<?> createOrUpdatePlayer(HttpServletRequest request, @Valid @RequestBody Player player) throws RecordNotFoundException {
@@ -72,6 +96,12 @@ public class PlayerController {
         return new ResponseEntity<Player>(updated, new HttpHeaders(), HttpStatus.OK);
     }
 
+    /**
+     * Delete one of your team player
+     * @param request
+     * @param id
+     * @return
+     */
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR')")
     public HttpStatus deletePlayerById(HttpServletRequest request, @PathVariable("id") Long id) {

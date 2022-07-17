@@ -26,12 +26,22 @@ public class TeamController {
     @Autowired
     JwtUtils jwtUtils;
 
+    /**
+     * Accessing all the teams part of the league.
+     * @return
+     */
     @GetMapping("/all")
     @PreAuthorize("hasRole('ADMIN')")
     public List<Team> getAllTeams() {
         return teamService.getAllTeams();
     }
 
+    /**
+     * Getting your details, accessed using the username from JWT token.
+     * @param request
+     * @return
+     * @throws RecordNotFoundException
+     */
     @GetMapping("")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<Team> getTeamById(HttpServletRequest request)
@@ -42,6 +52,12 @@ public class TeamController {
         return new ResponseEntity<Team>(team, new HttpHeaders(), HttpStatus.OK);
     }
 
+    /**
+     * Updating team details using JSON object as part of POST request.
+     * @param request
+     * @param team
+     * @return
+     */
     @PostMapping
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR')")
     public ResponseEntity<Team> updateTeam(HttpServletRequest request, @Valid @RequestBody Team team) {
@@ -54,6 +70,13 @@ public class TeamController {
         return new ResponseEntity<Team>(updated, new HttpHeaders(), HttpStatus.OK);
     }
 
+    /**
+     * Deleting your team details from using.
+     * @param request
+     * @param id
+     * @return
+     * @throws RecordNotFoundException
+     */
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR')")
     public HttpStatus deleteTeamById(HttpServletRequest request, @PathVariable("id") String id)

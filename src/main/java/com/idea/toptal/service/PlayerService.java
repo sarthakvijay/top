@@ -1,6 +1,5 @@
 package com.idea.toptal.service;
 
-import com.idea.toptal.controllers.TeamController;
 import com.idea.toptal.exception.RecordNotFoundException;
 import com.idea.toptal.models.Player;
 import com.idea.toptal.repository.PlayerRespository;

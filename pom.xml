@@ -8,11 +8,11 @@
         <version>2.6.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.bezkoder</groupId>
+    <groupId>com.toptal</groupId>
     <artifactId>spring-boot-security-login</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring-boot-security-login</name>
-    <description>Spring Boot Security Login example with JWT and H2 Database</description>
+    <name>spring-boot-application</name>
+    <description>Spring Boot Application</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>

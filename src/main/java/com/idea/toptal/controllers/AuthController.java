@@ -58,6 +58,11 @@ public class AuthController {
     @Autowired
     TeamService teamService;
 
+    /**
+     * Signin for Users who are already registered
+     * @param loginRequest
+     * @return
+     */
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -81,6 +86,11 @@ public class AuthController {
                                    roles));
     }
 
+    /**
+     * Api for Registering new user, with Json Object (signup Request)
+     * @param signUpRequest
+     * @return
+     */
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
@@ -139,6 +149,10 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
+    /**
+     * Api for signing out the current signed_in user.
+     * @return
+     */
     @PostMapping("/signout")
     public ResponseEntity<?> logoutUser() {
         ResponseCookie cookie = jwtUtils.getCleanJwtCookie();

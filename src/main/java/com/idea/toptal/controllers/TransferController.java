@@ -26,6 +26,10 @@ public class TransferController {
     @Autowired
     JwtUtils jwtUtils;
 
+    /**
+     * Accessing all the players available on transfer market.
+     * @return
+     */
     @GetMapping("/all")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public List<Transfer> getAllTransfers(){
@@ -33,6 +37,12 @@ public class TransferController {
         return transfers;
     }
 
+    /**
+     * Accessing Transfer details using the transfer id.
+     * @param id
+     * @return
+     * @throws RecordNotFoundException
+     */
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR')")
     public ResponseEntity<Transfer> getTransferById(@PathVariable("id") Long id) throws RecordNotFoundException {
@@ -40,6 +50,12 @@ public class TransferController {
         return new ResponseEntity<>(transfer, new HttpHeaders(), HttpStatus.OK);
     }
 
+    /**
+     * Creating / updating the transfer details, for your players only.
+     * @param request
+     * @param transfer
+     * @return
+     */
     @PostMapping
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR')")
     public ResponseEntity<?> createOrUpdateTransfer(HttpServletRequest request, @Valid @RequestBody Transfer transfer){
@@ -54,6 +70,12 @@ public class TransferController {
         return new ResponseEntity<Transfer>(updated, new HttpHeaders(), HttpStatus.OK);
     }
 
+    /**
+     * Api for Buy other team player available on transfer market list. (Budget > ask_value)
+     * @param request
+     * @param transfer
+     * @return
+     */
     @PostMapping("/buy")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR')")
     public ResponseEntity<?> buyTransfer(HttpServletRequest request, @Valid @RequestBody Transfer transfer){
@@ -68,6 +90,13 @@ public class TransferController {
         return new ResponseEntity<Transfer>(updated, new HttpHeaders(), HttpStatus.OK);
     }
 
+    /**
+     * deleting the transfer request for one of your player.
+     * @param request
+     * @param id
+     * @return
+     * @throws RecordNotFoundException
+     */
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('MODERATOR')")
     public HttpStatus deleteTransferById(HttpServletRequest request, @PathVariable("id") Long id)

@@ -1,9 +1,21 @@
-# Spring Boot Security Login example with JWT and H2 example
-- Appropriate Flow for User Login and Registration with JWT and HttpOnly Cookie
-- Spring Boot Rest Api Architecture with Spring Security
-- How to configure Spring Security to work with JWT
-- How to define Data Models and association for Authentication and Authorization
-- Way to use Spring Data JPA to interact with H2 Database
+# Spring Boot Application - SoccerManager
+## Functional Requirements 
+ - Registering User -> Creation of Default Soccer team -> Creation of Default Set of players 
+ - Able to edit Team variable (name, country)
+ - Able to edit Player variable (first_name, last_name, country)
+ - Should be allowed one of your team player to market transfer list with Asking value
+ - Should be allowed to purchase player listed on the transfer list (should be with your team budget)
+ - All the above functionality should be available via Rest APIs.
+
+## Defining 3 Roles (USER, MODERATOR, ADMIN)
+## Different role have different access level
+
+## Run following SQL insert statements
+```
+INSERT INTO roles(name) VALUES('ROLE_USER');
+INSERT INTO roles(name) VALUES('ROLE_MODERATOR');
+INSERT INTO roles(name) VALUES('ROLE_ADMIN');
+```
 
 ## Dependency
 – If you want to use PostgreSQL:
@@ -58,10 +70,5 @@ bezkoder.app.jwtExpirationMs= 86400000
 mvn spring-boot:run
 ```
 
-## Run following SQL insert statements
-```
-INSERT INTO roles(name) VALUES('ROLE_USER');
-INSERT INTO roles(name) VALUES('ROLE_MODERATOR');
-INSERT INTO roles(name) VALUES('ROLE_ADMIN');
-```
+
 

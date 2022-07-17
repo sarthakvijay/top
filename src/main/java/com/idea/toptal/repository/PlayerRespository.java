@@ -9,5 +9,11 @@ import java.util.Optional;
 
 @Repository
 public interface PlayerRespository extends JpaRepository<Player, Long> {
+
+    /**
+     * Finding the list of players associated with your(given) username.
+     * @param username
+     * @return
+     */
     Optional<List<Player>> findByTeamId(String username);
 }
