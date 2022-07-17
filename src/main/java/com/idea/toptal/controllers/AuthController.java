@@ -33,8 +33,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.idea.toptal.service.security.jwt.JwtUtils;
-import com.idea.toptal.service.security.services.UserDetailsImpl;
+import com.idea.toptal.security.jwt.JwtUtils;
+import com.idea.toptal.security.services.UserDetailsImpl;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -75,11 +75,10 @@ public class AuthController {
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                .body(jwtCookie.toString());
-//        .body(new UserInfoResponse(userDetails.getId(),
-//                                   userDetails.getUsername(),
-//                                   userDetails.getEmail(),
-//                                   roles));
+        .body(new UserInfoResponse(userDetails.getId(),
+                                   userDetails.getUsername(),
+                                   userDetails.getEmail(),
+                                   roles));
     }
 
     @PostMapping("/signup")

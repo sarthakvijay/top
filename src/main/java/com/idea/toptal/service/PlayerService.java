@@ -1,5 +1,6 @@
 package com.idea.toptal.service;
 
+import com.idea.toptal.controllers.TeamController;
 import com.idea.toptal.exception.RecordNotFoundException;
 import com.idea.toptal.models.Player;
 import com.idea.toptal.repository.PlayerRespository;
@@ -51,7 +52,7 @@ public class PlayerService {
         return players_list;
     }
 
-    public HttpStatus deletePlayerById(Long id, String username) {
+    public HttpStatus deletePlayerById(Long id, String username){
         Optional<Player> player = playerRespository.findById(id);
         if(player.isPresent()){
             if(!player.get().getTeamId().equals(username)){
@@ -61,7 +62,6 @@ public class PlayerService {
             return HttpStatus.OK;
         } else {
             return HttpStatus.FORBIDDEN;
-//            throw new RecordNotFoundException("No player found with given in the database");
         }
     }
 }

@@ -4,7 +4,7 @@ import com.idea.toptal.exception.RecordNotFoundException;
 import com.idea.toptal.models.Team;
 import com.idea.toptal.payload.response.MessageResponse;
 import com.idea.toptal.service.TeamService;
-import com.idea.toptal.service.security.jwt.JwtUtils;
+import com.idea.toptal.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -32,11 +32,13 @@ public class TeamController {
         return teamService.getAllTeams();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<Team> getTeamById(@PathVariable("id") String id)
+    public ResponseEntity<Team> getTeamById(HttpServletRequest request)
             throws RecordNotFoundException {
-        Team team = teamService.getTeamById(id);
+        String jwt = jwtUtils.getJwtFromCookies(request);
+        String username = jwtUtils.getUserNameFromJwtToken(jwt);
+        Team team = teamService.getTeamById(username);
         return new ResponseEntity<Team>(team, new HttpHeaders(), HttpStatus.OK);
     }
 
@@ -58,10 +60,6 @@ public class TeamController {
             throws RecordNotFoundException {
         String jwt = jwtUtils.getJwtFromCookies(request);
         String username = jwtUtils.getUserNameFromJwtToken(jwt);
-        if(!id.equals(username)){
-            ResponseEntity.ok(new MessageResponse("Error: Not your team."));
-        }
-        teamService.deleteTeamById(id);
-        return HttpStatus.FORBIDDEN;
+        return teamService.deleteTeamById(id, username);
     }
 }

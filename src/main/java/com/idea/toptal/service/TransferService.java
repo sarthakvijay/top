@@ -5,6 +5,7 @@ import com.idea.toptal.models.Player;
 import com.idea.toptal.models.Transfer;
 import com.idea.toptal.repository.TransferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -62,8 +63,9 @@ public class TransferService {
                 throw new RecordNotFoundException("Error: player asking price is above available budget");
             Player player = transfer.getPlayer();
             updateBudgetMarketValue(username, transfer, player);
+            deleteTransferById(transfer.getId(), username);
+            player.setTeamId(username);
             playerService.createOrUpdatePlayer(player);
-            deleteTransferById(transfer.getId());
         } else {
             throw new RecordNotFoundException("Error: No such player present in the transfer list.");
         }
@@ -72,19 +74,22 @@ public class TransferService {
     }
 
     private void updateBudgetMarketValue(String username, Transfer transfer, Player player) throws RecordNotFoundException {
-        teamService.updateBudget(player.getTeamId(), transfer.getAsk_value(), false);
+        teamService.updateBudget(player.getTeamId(), transfer.getAsk_value());
         player.updateMarketValue(transfer.getAsk_value());
         player.setTeamId(username);
-        teamService.updateBudget(username, player.getMarketvalue(), true);
+        teamService.updateBudget(username, transfer.getAsk_value(), player.getMarketvalue());
     }
 
-
-    public void deleteTransferById(Long id) throws RecordNotFoundException {
+    public HttpStatus deleteTransferById(Long id, String username) throws RecordNotFoundException {
         Optional<Transfer> transfer = transferRepository.findById(id);
         if(transfer.isPresent()){
+            if(!transfer.get().getPlayer().getTeamId().equals(username)){
+                return HttpStatus.FORBIDDEN;
+            }
             transferRepository.deleteById(id);
+            return HttpStatus.OK;
         } else {
-            throw new RecordNotFoundException("No transfer found with given in the database");
+            return HttpStatus.FORBIDDEN;
         }
     }
 }

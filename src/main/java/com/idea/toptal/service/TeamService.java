@@ -4,10 +4,13 @@ import com.idea.toptal.exception.RecordNotFoundException;
 import com.idea.toptal.models.Player;
 import com.idea.toptal.models.Position;
 import com.idea.toptal.models.Team;
+import com.idea.toptal.payload.response.MessageResponse;
 import com.idea.toptal.repository.TeamRepository;
 import org.hibernate.cfg.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -88,19 +91,30 @@ public class TeamService {
         }
     }
 
-    public void deleteTeamById(String id) throws RecordNotFoundException {
+    public HttpStatus deleteTeamById(String id, String username) throws RecordNotFoundException {
         Optional<Team> team = teamRepository.findById(id);
         if (team.isPresent()) {
+            if(!id.equals(username)){
+                ResponseEntity.ok(new MessageResponse("Error: Not your team."));
+            }
             teamRepository.deleteById(id);
+            return HttpStatus.OK;
         } else {
-            throw new RecordNotFoundException("No team record exist for given id");
+            return HttpStatus.FORBIDDEN;
         }
     }
 
-    public void updateBudget(String username, Double ask_value, boolean buy) {
+    public void updateBudget(String username, Double ask_value) {
         Team team = teamRepository.getById(username);
-        team.setMarketvalue(team.getMarketvalue() + (buy ? ask_value : -ask_value));
-        team.setBudget(team.getBudget() + (buy ? -ask_value : ask_value));
+        team.setMarketvalue(team.getMarketvalue() -ask_value );
+        team.setBudget(team.getBudget() + ask_value);
+        teamRepository.save(team);
+    }
+
+    public void updateBudget(String username, Double ask_value, Double market_value) {
+        Team team = teamRepository.getById(username);
+        team.setMarketvalue(team.getMarketvalue() + market_value);
+        team.setBudget(team.getBudget() - ask_value);
         teamRepository.save(team);
     }
 }

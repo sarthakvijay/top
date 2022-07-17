@@ -4,7 +4,7 @@ import com.idea.toptal.exception.RecordNotFoundException;
 import com.idea.toptal.models.Transfer;
 import com.idea.toptal.payload.response.MessageResponse;
 import com.idea.toptal.service.TransferService;
-import com.idea.toptal.service.security.jwt.JwtUtils;
+import com.idea.toptal.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,7 +27,7 @@ public class TransferController {
     JwtUtils jwtUtils;
 
     @GetMapping("/all")
-    @PreAuthorize("hasRole('MODERATOR')")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public List<Transfer> getAllTransfers(){
         List<Transfer> transfers =  transferService.getAllTransfers();
         return transfers;
@@ -70,8 +70,10 @@ public class TransferController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('MODERATOR')")
-    public HttpStatus deleteTransferById(@PathVariable("id") Long id) throws RecordNotFoundException {
-        transferService.deleteTransferById(id);
-        return HttpStatus.FORBIDDEN;
+    public HttpStatus deleteTransferById(HttpServletRequest request, @PathVariable("id") Long id)
+            throws RecordNotFoundException {
+        String jwt = jwtUtils.getJwtFromCookies(request);
+        String username = jwtUtils.getUserNameFromJwtToken(jwt);
+        return transferService.deleteTransferById(id, username);
     }
 }
