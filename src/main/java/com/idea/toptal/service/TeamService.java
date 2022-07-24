@@ -21,6 +21,9 @@ import java.util.stream.IntStream;
 @Service
 public class TeamService {
 
+    private static final String first_name = "first";
+    private static final String last_name = "last";
+
     @Value("${player.position}")
     String[] player_position;
 
@@ -39,11 +42,15 @@ public class TeamService {
     @Autowired
     PlayerService playerService;
 
+    /**
+     getting All team ( only for accessible to Admin */
     public List<Team> getAllTeams() {
         List<Team> teams = teamRepository.findAll();
         return teams;
     }
 
+    /**
+     * Get the team details from database*/
     public Team getTeamById(String id) throws RecordNotFoundException {
         Optional<Team> team = teamRepository.findById(id);
         if (team.isPresent()) {
@@ -52,6 +59,8 @@ public class TeamService {
         throw new RecordNotFoundException("No team record exist for given id");
     }
 
+    /**
+     * creating team logic*/
     public Team createTeam(Team team) throws IllegalArgumentException {
         team.setBudget(team_budget);
         createDefaultPlayers(team);
@@ -59,7 +68,8 @@ public class TeamService {
         return team;
     }
 
-
+    /**
+     * Team update & persisting logic.*/
     public Team updateTeam(Team team) throws IllegalArgumentException {
         if (team.getId() != null) {
             Optional<Team> teamEntity = teamRepository.findById(team.getId());
@@ -76,21 +86,27 @@ public class TeamService {
         return team;
     }
 
+    /**
+     * iteration over creating different set of position.*/
     private void createDefaultPlayers(Team team) throws IllegalArgumentException {
         IntStream.range(0, player_position.length)
                 .forEach(index -> createPositionPlayers(Position.valueOf(player_position[index]), player_count[index], team));
     }
 
+    /**
+     * Creating & persisting each position set of player for new team in the database */
     private void createPositionPlayers(Position position, Integer count, Team team) {
         for (int i = 0; i < count; i++) {
             Player player = new Player(
-                    "first" + team.getId(), "last" + team.getId(), team.getCountry(), team.getId(),
+                    first_name + team.getId(), last_name + team.getId(), team.getCountry(), team.getId(),
                     position, player_budget);
             player = playerService.createOrUpdatePlayer(player);
             team.setMarketvalue(team.getMarketvalue() + player.getMarketvalue());
         }
     }
 
+    /**
+     * deletion logic for team.*/
     public HttpStatus deleteTeamById(String id, String username) throws RecordNotFoundException {
         Optional<Team> team = teamRepository.findById(id);
         if (team.isPresent()) {
@@ -104,6 +120,11 @@ public class TeamService {
         }
     }
 
+    /**
+     * updating the budget and Market Value of SELL team in the database.
+     * @param username
+     * @param ask_value
+     */
     public void updateBudget(String username, Double ask_value) {
         Team team = teamRepository.getById(username);
         team.setMarketvalue(team.getMarketvalue() -ask_value );
@@ -111,6 +132,12 @@ public class TeamService {
         teamRepository.save(team);
     }
 
+    /**
+     * Logic for updating the Budget & Market Value of BUY team in the database.
+     * @param username
+     * @param ask_value
+     * @param market_value
+     */
     public void updateBudget(String username, Double ask_value, Double market_value) {
         Team team = teamRepository.getById(username);
         team.setMarketvalue(team.getMarketvalue() + market_value);

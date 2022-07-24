@@ -16,10 +16,13 @@ public class PlayerService {
     @Autowired
     PlayerRespository playerRespository;
 
+    /**
+     Getting All players from database (only Admin)*/
     public List<Player> getAllPlayers() {
         return playerRespository.findAll();
     }
 
+    /** Getting player on your team */
     public Player getPlayerById(Long id) throws RecordNotFoundException {
         Optional<Player> player = playerRespository.findById(id);
         if(player.isPresent()){
@@ -28,6 +31,7 @@ public class PlayerService {
         throw new RecordNotFoundException("No player with the given id present in Database");
     }
 
+    /** Creating or updating player in DB*/
     public Player createOrUpdatePlayer(Player player) {
         if(player.getId() != null){
             Optional<Player> playerEntity = playerRespository.findById(player.getId());
@@ -38,7 +42,7 @@ public class PlayerService {
                 newEntity.setPositions(player.getPositions());
                 newEntity.setCountry(player.getCountry());
                 newEntity.setAge(player.getAge());
-                newEntity.setTeamId(player.getTeamId());
+//                newEntity.setTeamId(player.getTeamId());
                 player = newEntity;
             }
         }
@@ -46,11 +50,13 @@ public class PlayerService {
         return player;
     }
 
+    /** getting the players on your team from DB*/
     public Optional<List<Player>> getTeamPlayers(String username){
         Optional<List<Player>> players_list = playerRespository.findByTeamId(username);
         return players_list;
     }
 
+    /** deleting the player on your team*/
     public HttpStatus deletePlayerById(Long id, String username){
         Optional<Player> player = playerRespository.findById(id);
         if(player.isPresent()){

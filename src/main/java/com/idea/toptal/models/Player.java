@@ -51,7 +51,7 @@ public class Player {
 
     public void updateMarketValue(Double ask_value){
         double randomPercentage = (double)getRandomNumberInRange(10, 100)/100;
-        double newValue = ask_value*(1 + randomPercentage);
+        double newValue = Math.round(ask_value*(1 + randomPercentage));
         this.setMarketvalue(newValue);
     }
 

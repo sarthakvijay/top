@@ -23,10 +23,14 @@ public class TransferService {
     @Autowired
     TeamService teamService;
 
+    /**
+     * getting all Transfer request from database */
     public List<Transfer> getAllTransfers() {
         return transferRepository.findAll();
     }
 
+    /**
+     * Mathod for logic of transfer any available transfer request by id.*/
     public Transfer getTransferById(Long id) throws RecordNotFoundException {
         Optional<Transfer> transfer = transferRepository.findById(id);
         if(transfer.isPresent()){
@@ -35,6 +39,8 @@ public class TransferService {
         throw new RecordNotFoundException("No transfer with the given id present in Database");
     }
 
+    /**
+     * Creating or updating the transfer request for one of your team player in the database.*/
     public Transfer createOrUpdatePlayer(Transfer transfer, String username) throws RecordNotFoundException {
         Optional<Transfer> to_update = transferRepository.findByPlayerId(transfer.getPlayer().getId());
         if(to_update.isPresent()) {
@@ -52,6 +58,8 @@ public class TransferService {
         return transfer;
     }
 
+    /**
+     * Logic for buying the player listed in the Transfer Market.*/
     public Transfer buyTransfer(Transfer transfer, String username) throws RecordNotFoundException {
         Optional<Transfer> to_update = transferRepository.findByPlayerId(transfer.getPlayer().getId());
         if(to_update.isPresent()) {
@@ -73,6 +81,8 @@ public class TransferService {
         return transfer;
     }
 
+    /**
+     * Updating the Budget and Market Value of the BUY & Sell team.*/
     private void updateBudgetMarketValue(String username, Transfer transfer, Player player) throws RecordNotFoundException {
         teamService.updateBudget(player.getTeamId(), transfer.getAsk_value());
         player.updateMarketValue(transfer.getAsk_value());
@@ -80,6 +90,8 @@ public class TransferService {
         teamService.updateBudget(username, transfer.getAsk_value(), player.getMarketvalue());
     }
 
+    /**
+     * Deleting the Transfer request for your own player.*/
     public HttpStatus deleteTransferById(Long id, String username) throws RecordNotFoundException {
         Optional<Transfer> transfer = transferRepository.findById(id);
         if(transfer.isPresent()){

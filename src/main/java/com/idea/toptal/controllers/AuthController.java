@@ -40,6 +40,10 @@ import com.idea.toptal.security.services.UserDetailsImpl;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+
+    private static final String team_name = "teamName";
+    private static final Double initial_value = 0.00;
+
     @Autowired
     AuthenticationManager authenticationManager;
 
@@ -141,7 +145,7 @@ public class AuthController {
         userRepository.save(user);
 
         try {
-            Team team = new Team(user.getUsername(), user.getUsername() + "teamName", user.getCountry(), 0.00, 0.00);
+            Team team = new Team(user.getUsername(), user.getUsername() + team_name, user.getCountry(), initial_value, initial_value);
             teamService.createTeam(team);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: User created but incorrect position defined in properties file!"));

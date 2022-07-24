@@ -1,0 +1,11 @@
+image: java:8
+
+stages:
+  - build
+
+build:
+  stage: build
+  script: ./mvnw package
+  artifacts:
+    paths:
+      - target/spring-boot-security-login-0.0.1-SNAPSHOT.jar
